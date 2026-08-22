@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Premium Editing for Coaches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600;1,700;1,800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F5F5F7;
+    --card:#FFFFFF;
+    --border:#E6E8EC;
+    --navy:#0D2A43;
+    --ink:#1C1C1E;
+    --body:#57616E;
+    --muted:#8A93A0;
+    --blue:#0D2A43;
+    --blue-2:#9BBAD8;
+    --ease:cubic-bezier(0.00,0.88,0.04,1.00);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--body);
+    font-family:-apple-system,"SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+  }
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{color:var(--navy);letter-spacing:-0.03em;font-weight:800;line-height:1.08}
+  h3{letter-spacing:-0.02em}
+  a{color:inherit;text-decoration:none}
+  .power{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;font-weight:700}
+
+  /* buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border-radius:999px;padding:15px 30px;font-size:16px;font-weight:600;
+    cursor:pointer;border:1.5px solid transparent;white-space:nowrap;
+  }
+  .btn svg{width:17px;height:17px}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 30px rgba(13,42,67,.28)}
+  .btn-primary:hover{box-shadow:0 14px 38px rgba(13,42,67,.34)}
+  .btn-outline{background:transparent;color:var(--navy);border-color:var(--border)}
+  .btn-outline:hover{border-color:var(--blue)}
+  .btn-sm{padding:11px 22px;font-size:15px}
+  .press{transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+  .press:hover{transform:scale(1.04)}
+  .press:active{transform:scale(.95)}
+
+  /* nav */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(245,245,247,.75);
+    backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
+    border-bottom:1px solid var(--border)}
+  .nav-inner{display:flex;align-items:center;justify-content:flex-end;height:66px}
+
+  /* sections */
+  .section{padding:96px 0}
+  .soft{background:#EDEFF2}
+  .dark{background:var(--navy);color:#fff}
+  .dark h2{color:#fff}
+  .head{max-width:760px;margin:0 auto 60px;text-align:center}
+  .head h2{font-size:clamp(1.9rem,4vw,2.5rem);margin-bottom:14px}
+  .head p{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--body)}
+  .dark .head p{color:rgba(255,255,255,.8)}
+
+  /* hero */
+  .hero{padding:88px 0 100px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+  .hero-eyebrow{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+  .hero-title{font-size:clamp(2rem,4.2vw,2.85rem);margin-bottom:16px;line-height:1.12}
+  .hero-punch{font-size:clamp(1.15rem,1.9vw,1.4rem);font-weight:700;color:var(--navy);letter-spacing:-.01em;line-height:1.25;margin-bottom:16px}
+  .hero-sub{font-size:clamp(1.02rem,1.5vw,1.15rem);color:var(--body);margin-bottom:26px;max-width:48ch}
+  .hero-sub .power{color:var(--navy)}
+  .hero-title .power{color:var(--navy)}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .fine{font-size:12.5px;color:var(--muted);margin-top:12px;letter-spacing:.01em}
+
+  /* showreel */
+  .vsl{position:relative;aspect-ratio:16/9;border-radius:26px;border:1px solid var(--border);
+    background:linear-gradient(135deg,rgba(10,37,64,.10),rgba(13,42,67,.14));
+    display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.10);transition:border-color .3s var(--ease)}
+  .vsl:hover{border-color:var(--blue)}
+  .play-btn{width:70px;height:70px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 34px rgba(13,42,67,.45)}
+  .play-btn svg{width:26px;height:26px;margin-left:4px}
+  .vsl-tag{position:absolute;left:16px;bottom:16px;font-size:11px;font-weight:600;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--navy);background:rgba(255,255,255,.8);padding:6px 12px;border-radius:999px}
+
+  /* generic card grids */
+  .cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:26px;padding:34px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .card h3{font-size:1.3rem;margin-bottom:8px}
+  .card .desc{font-size:1.05rem;color:#3F4A57;line-height:1.5}
+
+  /* proof / work section */
+  .work-card{display:flex;flex-direction:column}
+  .work-card .desc{font-size:1.02rem;margin-bottom:22px}
+  .work-card .btn{margin-top:auto;align-self:flex-start}
+  .work-note{max-width:660px;margin:36px auto 0;text-align:center;font-size:.9rem;color:var(--muted)}
+
+  /* number bracket badge (problem) */
+  .num-badge{display:inline-flex;align-items:center;justify-content:center;
+    padding:10px 18px;margin-bottom:22px;border-radius:16px;
+    background:var(--blue);color:#fff;font-weight:800;font-size:24px;line-height:1;letter-spacing:.02em;
+    box-shadow:0 8px 20px rgba(13,42,67,.35),0 0 24px rgba(13,42,67,.45)}
+
+  /* solution steps */
+  .steps{gap:36px}
+  .step-row{display:flex;align-items:center;gap:16px;margin-bottom:14px}
+  .step-badge{width:54px;height:54px;flex:0 0 auto;border-radius:50%;
+    background:var(--blue);color:#fff;font-weight:800;font-size:1.05rem;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px rgba(13,42,67,.35),0 0 22px rgba(13,42,67,.5)}
+  .step h3{font-size:1.25rem}
+  .step p{color:var(--body);font-size:1.02rem}
+  .step-arrow{display:flex;justify-content:flex-end;margin-top:18px;color:var(--blue)}
+
+  /* pricing */
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1040px;margin:0 auto}
+  .price-card{background:var(--card);border:2px solid var(--border);border-radius:26px;padding:34px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);display:flex;flex-direction:column}
+  .price-card.featured{border-color:var(--blue);background:rgba(13,42,67,.035)}
+  .badge-top{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--blue);margin-bottom:16px}
+  .price-card h3{font-size:1.35rem;margin-bottom:6px}
+  .price-desc{font-size:.95rem;color:var(--muted);margin-bottom:18px}
+  .price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+  .price{font-size:2.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em}
+  .price-per{font-size:.95rem;color:var(--body)}
+  .incl-label{margin:22px 0 14px;padding-top:20px;border-top:1px solid var(--border);
+    font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .features{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:30px}
+  .features li{display:flex;gap:11px;align-items:flex-start;font-size:.98rem;color:#3F4A57}
+  .chk{width:20px;height:20px;flex:0 0 auto;margin-top:1px;color:var(--blue)}
+  .price-card .btn{margin-top:auto}
+
+  /* fit (for / not for) */
+  .fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1000px;margin:0 auto}
+  .fit-card{background:var(--card);border:1px solid var(--border);border-radius:26px;padding:34px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .fit-card h3{font-size:1.2rem;margin-bottom:18px}
+  .fit-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .fit-list li{display:flex;gap:11px;align-items:flex-start;font-size:1rem;color:#3F4A57;line-height:1.5}
+  .fit-list .ic{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
+  .fit-yes .ic{color:var(--blue)}
+  .fit-no .ic{color:var(--muted)}
+
+  /* client results (real testimonials) */
+  .results{display:flex;flex-direction:column;gap:64px;max-width:1000px;margin:0 auto}
+  .result-row{display:grid;grid-template-columns:300px 1fr;gap:48px;align-items:center}
+  .result-row:nth-child(even){grid-template-columns:1fr 300px}
+  .result-row:nth-child(even) .result-copy{order:1}
+  .result-row:nth-child(even) .result-video{order:2}
+  .result-row.has-wide{grid-template-columns:minmax(0,480px) 1fr}
+  .result-video{width:100%;max-width:300px;margin:0 auto}
+  .rv-thumb{position:relative;border-radius:24px;overflow:hidden;cursor:pointer;
+    background:linear-gradient(160deg,#0D2A43,#123a5a 55%,#1c4f7d);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 12px 34px rgba(13,42,67,.28);transition:transform .45s var(--ease)}
+  .rv-thumb:hover{transform:translateY(-4px)}
+  .rv-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0D2A43;display:block}
+  .rv-playbtn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:transparent;border:none;cursor:pointer;z-index:2;padding:0}
+  .rv-thumb.playing .rv-playbtn{display:none}
+  .rv-thumb.playing .rv-tag{opacity:0}
+  .result-video.wide{max-width:460px}
+  .rv-tag{position:absolute;left:14px;bottom:14px;font-size:12px;font-weight:600;letter-spacing:.05em;
+    color:#fff;background:rgba(0,0,0,.3);padding:6px 12px;border-radius:999px}
+  .rv-play{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.22);
+    border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;color:#fff}
+  .rv-play svg{width:22px;height:22px;margin-left:3px}
+  .result-name{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+  .result-headline{font-size:clamp(1.35rem,2.3vw,1.7rem);color:var(--navy);font-weight:800;letter-spacing:-.02em;line-height:1.16;margin-bottom:8px}
+  .result-role{font-size:.95rem;color:var(--muted);margin-bottom:22px}
+  .result-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+  .result-list li{display:flex;gap:11px;align-items:flex-start;font-size:1rem;color:#3F4A57;line-height:1.5}
+  .result-quote{border-left:3px solid var(--blue);padding:8px 0 8px 20px;
+    font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;
+    font-size:1.15rem;color:var(--navy);line-height:1.4}
+
+  /* why-different */
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 40px}
+  .why-item{display:flex;gap:12px;align-items:flex-start}
+  .why-item p{color:rgba(255,255,255,.92);font-size:1.05rem}
+  .why-item .chk{color:var(--blue-2)}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto}
+  .faq details{border-bottom:1px solid var(--border)}
+  .faq summary{list-style:none;cursor:pointer;padding:22px 0;font-size:1.08rem;font-weight:700;color:var(--navy);
+    display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq .plus{flex:0 0 auto;width:22px;height:22px;position:relative;transition:transform .3s var(--ease)}
+  .faq .plus::before,.faq .plus::after{content:"";position:absolute;background:var(--blue);border-radius:2px}
+  .faq .plus::before{top:10px;left:2px;right:2px;height:2px}
+  .faq .plus::after{left:10px;top:2px;bottom:2px;width:2px}
+  .faq details[open] .plus{transform:rotate(45deg)}
+  .faq details .fa{padding:0 0 22px;color:var(--body);font-size:1rem;max-width:66ch;line-height:1.6}
+  .faq details .fa a{color:var(--navy);text-decoration:underline}
+
+  /* final CTA */
+  .cta{max-width:680px;margin:0 auto;background:#EDEFF2;border:1px solid var(--border);
+    border-radius:28px;padding:60px 44px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+  .cta.oncard{background:var(--card)}
+  .cta h2{font-size:clamp(1.9rem,4vw,2.5rem);margin-bottom:14px}
+  .cta p{font-size:1.1rem;color:var(--body);margin-bottom:28px}
+  .cta .fine a{color:var(--navy);text-decoration:underline}
+
+  /* footer */
+  .footer{border-top:1px solid var(--border);background:#EDEFF2;padding:40px 0}
+  .footer-inner{text-align:center}
+  .footer p{font-size:.9rem;color:var(--muted)}
+
+  /* modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;
+    align-items:center;justify-content:center;padding:18px;z-index:100}
+  .modal.open{display:flex}
+  .modal-box{width:min(880px,100%);aspect-ratio:16/9;background:#000;border-radius:22px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;text-align:center}
+  .modal-box span{display:block;font-size:.85rem;color:rgba(255,255,255,.6);margin-top:6px}
+
+  /* animations */
+  .mask{overflow:hidden;padding-bottom:.14em}
+  .slideup{display:inline-block;transform:translateY(110%);opacity:0;animation:rise .78s var(--ease) forwards}
+  @keyframes rise{0%{transform:translateY(110%);filter:blur(10px);opacity:0}20%{opacity:1}60%{filter:blur(2px)}100%{transform:translateY(0);filter:blur(0);opacity:1}}
+  .load{opacity:0;transform:translateY(24px);filter:blur(6px);animation:fadeup .7s var(--ease) forwards}
+  @keyframes fadeup{to{opacity:1;transform:none;filter:blur(0)}}
+  .reveal{opacity:0;transform:translateY(40px);filter:blur(8px)}
+  .reveal.in{animation:fadeup .7s var(--ease) forwards}
+  .pop{opacity:0;transform:scale(.6)}
+  .pop.in{animation:popin .65s var(--ease) forwards}
+  @keyframes popin{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
+
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr;gap:36px}
+    .cards-3{grid-template-columns:1fr}
+    .steps .step-arrow{display:none}
+    .pricing{grid-template-columns:1fr;max-width:460px}
+    .fit-grid{grid-template-columns:1fr}
+    .why-grid{grid-template-columns:1fr}
+    .result-row,.result-row:nth-child(even){grid-template-columns:1fr;gap:26px}
+    .result-row:nth-child(even) .result-copy,.result-row:nth-child(even) .result-video{order:0}
+    .result-row.has-wide{grid-template-columns:1fr}
+    .result-video,.result-video.wide{max-width:300px}
+    .section{padding:70px 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .slideup,.load,.reveal,.pop{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
+  }
+</style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#apply" class="btn btn-primary btn-sm press">Start Your Editing Audit</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="section hero">
+    <div class="container hero-grid">
+      <a class="vsl load" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" style="animation-delay:.1s">
+        <div class="play-btn" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="vsl-tag">Watch Client Editing Work</span>
+      </a>
+      <div class="hero-copy">
+        <div class="hero-eyebrow load">High-production editing for coaches &amp; personal brands</div>
+        <h1 class="hero-title">
+          <span class="mask"><span class="slideup">Premium editing that makes your content <span class="power">look expensive</span> and hold attention.</span></span>
+        </h1>
+        <p class="hero-punch load" style="animation-delay:.3s">Great ideas die in average editing.</p>
+        <p class="hero-sub load" style="animation-delay:.4s">
+          High-production editing for coaches and personal brands who want sharper hooks, cleaner pacing, premium visuals, and reliable turnaround without chasing freelancers.
+        </p>
+        <div class="load" style="animation-delay:.52s">
+          <div class="hero-ctas">
+            <a href="#apply" class="btn btn-primary press">
+              Start Your Editing Audit
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#work" class="btn btn-outline press">View Editing Examples</a>
+          </div>
+          <p class="fine">Watch the work first. Then book the audit.</p>
+          <p class="fine">Real client editing work. No fake case-study claims. Watch the quality before you book.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Proof / Editing examples -->
+  <section class="section soft" id="work">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Watch the work before you trust the words.</h2>
+        <p>You do not need to guess what your content could look like. See real client editing work built around hooks, pacing, captions, motion, sound design, and a premium brand feel.</p>
+      </div>
+      <div class="cards-3">
+        <div class="card work-card pop">
+          <h3>Client Editing Work</h3>
+          <p class="desc">Watch real client edits created for coaches and personal brands, built to make their ideas look sharper, cleaner, and more premium.</p>
+          <a href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" class="btn btn-outline press">View Client Work</a>
+        </div>
+        <div class="card work-card pop" style="animation-delay:.12s">
+          <h3>Short-Form Edits</h3>
+          <p class="desc">Retention-first short-form clips with strong hooks, clean captions, pacing, motion, and sound design.</p>
+          <a href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" class="btn btn-outline press">View Short-Form Edits</a>
+        </div>
+        <div class="card work-card pop" style="animation-delay:.24s">
+          <h3>Editing Style</h3>
+          <p class="desc">A quick look at the editing style, motion, captions, sound design, and polish behind the work.</p>
+          <a href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" class="btn btn-outline press">Watch Editing Style</a>
+        </div>
+      </div>
+      <p class="work-note reveal">These examples show editing quality and execution. They do not claim guaranteed sales calls, revenue, or lead outcomes.</p>
+    </div>
+  </section>
+
+  <!-- Problem -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <h2>The content quality bottleneck</h2>
+        <p>You have the ideas, expertise, and footage. But unreliable editors, average cuts, and inconsistent editing make your content look less premium than the offer behind it.</p>
+      </div>
+      <div class="cards-3">
+        <div class="card pop">
+          <div class="num-badge">01</div>
+          <h3>Editor churn</h3>
+          <p class="desc">You keep restarting with new freelancers who never fully learn your style.</p>
+        </div>
+        <div class="card pop" style="animation-delay:.12s">
+          <div class="num-badge">02</div>
+          <h3>Average edits</h3>
+          <p class="desc">Your ideas are strong, but the edit makes them feel forgettable.</p>
+        </div>
+        <div class="card pop" style="animation-delay:.24s">
+          <div class="num-badge">03</div>
+          <h3>Time drain</h3>
+          <p class="desc">You lose hours reviewing, revising, chasing, and fixing content instead of growing the business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Authority Editing System -->
+  <section class="section soft">
+    <div class="container">
+      <div class="head reveal">
+        <h2>The Authority Editing Workflow</h2>
+        <p>A simple monthly workflow for turning your raw footage into premium content with hook-focused editing, retention-first pacing, and reliable delivery.</p>
+      </div>
+      <div class="cards-3 steps">
+        <div class="step reveal">
+          <div class="step-row"><div class="step-badge">01</div><h3>Brand &amp; Style Onboarding</h3></div>
+          <p>We review your current content, examples, editing preferences, brand feel, and footage style so every edit feels consistent, not template-made.</p>
+          <div class="step-arrow"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+        <div class="step reveal" style="animation-delay:.12s">
+          <div class="step-row"><div class="step-badge">02</div><h3>Retention-First Editing</h3></div>
+          <p>We edit for hooks, pacing, captions, sound design, motion, thumbnails, and visual clarity, so your content holds attention and looks premium.</p>
+          <div class="step-arrow"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+        <div class="step reveal" style="animation-delay:.24s">
+          <div class="step-row"><div class="step-badge">03</div><h3>Reliable Delivery &amp; Refinement</h3></div>
+          <p>You get a consistent production workflow, clear communication, and revisions against the agreed brief until the edit is right.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What makes this different -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Not just cleaner cuts. Editing built around attention.</h2>
+        <p>Most editors just cut footage together. This workflow edits around hooks, pacing, retention, captions, sound design, and brand consistency, so your videos feel sharper and more premium.</p>
+      </div>
+      <div class="cards-3">
+        <div class="card pop">
+          <h3>Hook-first editing</h3>
+          <p class="desc">Every video is cut around the opening idea, pacing, retention, and viewer attention.</p>
+        </div>
+        <div class="card pop" style="animation-delay:.12s">
+          <h3>Brand consistency</h3>
+          <p class="desc">Your edits follow a consistent look and feel, so your content starts to feel recognizable.</p>
+        </div>
+        <div class="card pop" style="animation-delay:.24s">
+          <h3>Reliable production flow</h3>
+          <p class="desc">You get a repeatable editing workflow instead of chasing freelancers every week.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section soft">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Choose Your Authority Editing Package</h2>
+        <p>Every package includes high-production editing and a reliable monthly workflow. The difference is monthly output, turnaround, and support level.</p>
+      </div>
+      <div class="pricing">
+        <div class="price-card pop">
+          <h3>Authority Starter</h3>
+          <p class="price-desc">For consistent premium output</p>
+          <div class="price-row"><span class="price">$1,500</span><span class="price-per">/ month</span></div>
+          <div class="incl-label">What's included</div>
+          <ul class="features">
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>12 short-form videos</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>High-production editing (hooks + retention)</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Captions &amp; on-screen text</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Sound design &amp; licensed music</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Custom thumbnails</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>2 revisions per video</span></li>
+          </ul>
+          <a href="#apply" class="btn btn-outline press">Start Your Editing Audit</a>
+        </div>
+
+        <div class="price-card featured pop" style="animation-delay:.12s">
+          <span class="badge-top">Most Popular</span>
+          <h3>Authority Growth</h3>
+          <p class="price-desc">For higher output and stronger creative support</p>
+          <div class="price-row"><span class="price">$2,200</span><span class="price-per">/ month</span></div>
+          <div class="incl-label">What's included</div>
+          <ul class="features">
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>20 short-form videos</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Starter</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Hook support and advanced editing polish</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Priority turnaround</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>3 revisions per video</span></li>
+          </ul>
+          <a href="#apply" class="btn btn-primary press">Start Your Editing Audit</a>
+        </div>
+
+        <div class="price-card pop" style="animation-delay:.24s">
+          <h3>Authority Scale</h3>
+          <p class="price-desc">For high-volume authority content</p>
+          <div class="price-row"><span class="price">$3,000</span><span class="price-per">/ month</span></div>
+          <div class="incl-label">What's included</div>
+          <ul class="features">
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>30 short-form videos</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Growth</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Dedicated editor + backup</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day turnaround on priority clips</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Priority revisions until the edit matches the agreed brief</span></li>
+          </ul>
+          <a href="#apply" class="btn btn-outline press">Start Your Editing Audit</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <h2>What clients say about the editing</h2>
+        <p>Real client feedback on editing quality, reliability, turnaround, and execution.</p>
+      </div>
+
+      <div class="results">
+        <!-- Alex -->
+        <div class="result-row reveal">
+          <div class="result-video">
+            <div class="rv-thumb" data-video style="aspect-ratio:9/16">
+              <video class="rv-video" src="Alex.mp4#t=0.1" playsinline preload="metadata"></video>
+              <button class="rv-playbtn" aria-label="Play Alex's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+              <span class="rv-tag">Alex</span>
+            </div>
+          </div>
+          <div class="result-copy">
+            <div class="result-name">Alex</div>
+            <h3 class="result-headline">From editing his own videos → same-day delivery.</h3>
+            <div class="result-role">Personal Branding Coach</div>
+            <ul class="result-list">
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Ended the editor churn — one reliable editor instead of a new hire every 2–3 weeks</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day turnaround on videos and revisions</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Instructions actually followed — no pushback, no chasing</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Gave him his time back to run his business instead of editing</span></li>
+            </ul>
+            <p class="result-quote">"I can carry on running my business instead of stressing about my editor."</p>
+          </div>
+        </div>
+
+        <!-- Lewis -->
+        <div class="result-row reveal">
+          <div class="result-video">
+            <div class="rv-thumb" data-video style="aspect-ratio:464/832">
+              <video class="rv-video" src="Lewis.mp4#t=0.1" playsinline preload="metadata"></video>
+              <button class="rv-playbtn" aria-label="Play Lewis's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+              <span class="rv-tag">Lewis</span>
+            </div>
+          </div>
+          <div class="result-copy">
+            <div class="result-name">Lewis</div>
+            <h3 class="result-headline">Ad creatives that make people ask who edited them.</h3>
+            <div class="result-role">Fitness Coach</div>
+            <ul class="result-list">
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Ad creatives that convert — significant page growth from just 6 creatives</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Cut through a saturated market</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Editing so distinct that people DM him asking "who's your editor?"</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Big results from low volume — quality over quantity</span></li>
+            </ul>
+            <p class="result-quote">"So many people ask me who my editor is — I just send them his way."</p>
+          </div>
+        </div>
+
+        <!-- Christos -->
+        <div class="result-row reveal">
+          <div class="result-video">
+            <div class="rv-thumb" data-video style="aspect-ratio:480/848">
+              <video class="rv-video" src="Christos.mp4#t=0.1" playsinline preload="metadata"></video>
+              <button class="rv-playbtn" aria-label="Play Christos's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+              <span class="rv-tag">Christos</span>
+            </div>
+          </div>
+          <div class="result-copy">
+            <div class="result-name">Christos</div>
+            <h3 class="result-headline">Leveled up his whole editing team in under a month.</h3>
+            <div class="result-role">Business Coach</div>
+            <ul class="result-list">
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Trained his in-house editing team (not done-for-you — team upgrade)</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Visible jump in editing quality in less than a month</span></li>
+              <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Systemized how his team edits, so results don't depend on one person</span></li>
+            </ul>
+            <p class="result-quote">"The difference in less than a month in how my team edits is insane."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why coaches choose this system -->
+  <section class="section dark">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Why coaches choose this editing workflow</h2>
+        <p>More than cleaner cuts. A premium editing workflow built around quality, consistency, hooks, and retention.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-item reveal"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>High-production quality that makes your content look premium</p></div>
+        <div class="why-item reveal" style="animation-delay:.08s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Reliable turnaround without chasing freelancers</p></div>
+        <div class="why-item reveal" style="animation-delay:.16s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Editing built around hooks, pacing, and retention, not just basic cuts</p></div>
+        <div class="why-item reveal" style="animation-delay:.24s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>A consistent editing style that matches your brand</p></div>
+        <div class="why-item reveal" style="animation-delay:.32s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Revision support until the edit matches the agreed brief</p></div>
+        <div class="why-item reveal" style="animation-delay:.4s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Built specifically for coaches and personal brands</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who this is for / not for -->
+  <section class="section soft">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Is this the right fit?</h2>
+        <p>This is a premium, monthly editing system — it works best for the right people.</p>
+      </div>
+      <div class="fit-grid">
+        <div class="fit-card reveal fit-yes">
+          <h3>This is for you if…</h3>
+          <ul class="fit-list">
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You are a coach or personal brand with an existing offer.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You already create content or are ready to film consistently.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You want premium editing, not cheap clips.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You are tired of chasing unreliable freelancers.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You want editing built around hooks, pacing, and retention — not just basic cuts.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You care about authority, trust, and content quality.</span></li>
+          </ul>
+        </div>
+        <div class="fit-card reveal fit-no" style="animation-delay:.1s">
+          <h3>This is not for you if…</h3>
+          <ul class="fit-list">
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You only want the cheapest editor possible.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You want guaranteed sales calls without fixing your offer, content, or follow-up.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You are not willing to provide raw footage.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You want one-off edits instead of a monthly system.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You are under $10k/month and cannot invest in premium content support yet.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container">
+      <div class="head reveal">
+        <h2>Questions, answered</h2>
+        <p>Everything you're probably wondering before the audit call.</p>
+      </div>
+      <div class="faq reveal">
+        <details><summary>Is this just video editing?<span class="plus"></span></summary><div class="fa">It is premium monthly editing, done properly: hook-focused cuts, retention-first pacing, captions, motion, sound design, thumbnails, brand consistency, and a reliable workflow.</div></details>
+        <details><summary>Do you guarantee booked calls?<span class="plus"></span></summary><div class="fa">No fake guarantees. The goal is to make your content look premium, build authority, and give viewers a clearer next step. Call volume depends on your offer, audience, market, consistency, and follow-up.</div></details>
+        <details><summary>What if I already have an editor?<span class="plus"></span></summary><div class="fa">You may still be a fit if your current editor only makes basic cuts and does not edit for hooks, pacing, retention, brand feel, or consistency.</div></details>
+        <details><summary>How much time do I need to commit?<span class="plus"></span></summary><div class="fa">You need to provide raw footage, examples, and feedback. The goal is to remove editing chaos, not add another operational burden.</div></details>
+        <details><summary>Who is this best for?<span class="plus"></span></summary><div class="fa">Coaches and personal brands with an existing offer who want premium content, consistent output, and an editor who understands their brand and style.</div></details>
+        <details><summary>Can I see your work before booking?<span class="plus"></span></summary><div class="fa">Yes. You can view real client editing work here: <a href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Client editing highlights</a>.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="section soft">
+    <div class="container">
+      <div class="cta oncard reveal">
+        <h2>Ready to stop losing good ideas to average editing?</h2>
+        <p>Book a quick audit and I'll show you where your content is losing attention, authority, or clarity, and which package fits your current output.</p>
+        <a href="#apply" class="btn btn-primary press">
+          Start Your Editing Audit
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <p class="fine">A few editing slots open each month.</p>
+        <p class="fine">Want to see the work first? <a href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">View client editing examples</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Application -->
+  <section class="section" id="apply">
+    <div class="container">
+      <div class="cta reveal">
+        <h2>Apply for Your Editing Audit</h2>
+        <p>Your content may not need more volume. It may need better editing, sharper hooks, cleaner pacing, and a more consistent visual style. Book a call and answer the qualification questions so we can see whether your biggest leak is content quality, consistency, or editing execution.</p>
+        <p style="font-size:.98rem;color:var(--muted);margin-bottom:28px;">This is for coaches and personal brands with an existing offer who want premium editing, not cheap clips or another unreliable freelancer.</p>
+        <a href="https://calendly.com/nikospapadopoulos00/1-1-call" class="btn btn-primary press" target="_blank" rel="noopener">Book Your Editing Audit</a>
+        <p class="fine">If you are under $10k/month, this is not the right fit yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>© 2026. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script>
+  (function(){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold:0.15, rootMargin:'0px 0px -10% 0px' });
+    document.querySelectorAll('.reveal,.pop').forEach(function(el){ io.observe(el); });
+
+    document.querySelectorAll('[data-video]').forEach(function(box){
+      var v = box.querySelector('video');
+      box.addEventListener('click', function(){
+        if(box.classList.contains('playing')) return;
+        box.classList.add('playing');
+        v.setAttribute('controls','controls');
+        if(v.play) v.play();
+      });
+    });
+  })();
+</script>
+</body>
+</html>
