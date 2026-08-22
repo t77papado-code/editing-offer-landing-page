@@ -663,6 +663,12 @@
 
     document.querySelectorAll('[data-video]').forEach(function(box){
       var v = box.querySelector('video');
+      var src = v ? (v.getAttribute('src') || '').split('#')[0] : '';
+      if (src) {
+        fetch(src, { method: 'HEAD' }).then(function(r){
+          if (!r.ok) box.classList.add('novideo');
+        }).catch(function(){ box.classList.add('novideo'); });
+      }
       box.addEventListener('click', function(){
         if(box.classList.contains('playing')) return;
         box.classList.add('playing');
