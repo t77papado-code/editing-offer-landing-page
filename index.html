@@ -177,6 +177,9 @@
     border:1px solid rgba(255,255,255,.5);backdrop-filter:blur(6px);
     display:flex;align-items:center;justify-content:center;color:#fff}
   .rv-play svg{width:22px;height:22px;margin-left:3px}
+  .rv-fallback{display:none;position:absolute;inset:0;z-index:3;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;font-weight:700;font-size:.95rem;text-align:center;padding:20px;text-decoration:none;line-height:1.35}
+  .rv-thumb.novideo .rv-fallback{display:flex}
+  .rv-thumb.novideo .rv-playbtn{display:none}
   .result-name{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
   .result-headline{font-size:clamp(1.35rem,2.3vw,1.7rem);color:var(--navy);font-weight:800;letter-spacing:-.02em;line-height:1.16;margin-bottom:8px}
   .result-role{font-size:.95rem;color:var(--muted);margin-bottom:22px}
@@ -229,14 +232,15 @@
 
   /* animations */
   .mask{overflow:hidden;padding-bottom:.14em}
-  .slideup{display:inline-block;transform:translateY(110%);opacity:0;animation:rise .78s var(--ease) forwards}
+  .slideup{display:inline-block}
+  .js .slideup{transform:translateY(110%);opacity:0;animation:rise .78s var(--ease) forwards}
   @keyframes rise{0%{transform:translateY(110%);filter:blur(10px);opacity:0}20%{opacity:1}60%{filter:blur(2px)}100%{transform:translateY(0);filter:blur(0);opacity:1}}
-  .load{opacity:0;transform:translateY(24px);filter:blur(6px);animation:fadeup .7s var(--ease) forwards}
+  .js .load{opacity:0;transform:translateY(24px);filter:blur(6px);animation:fadeup .7s var(--ease) forwards}
   @keyframes fadeup{to{opacity:1;transform:none;filter:blur(0)}}
-  .reveal{opacity:0;transform:translateY(40px);filter:blur(8px)}
-  .reveal.in{animation:fadeup .7s var(--ease) forwards}
-  .pop{opacity:0;transform:scale(.6)}
-  .pop.in{animation:popin .65s var(--ease) forwards}
+  .js .reveal{opacity:0;transform:translateY(40px);filter:blur(8px)}
+  .js .reveal.in{animation:fadeup .7s var(--ease) forwards}
+  .js .pop{opacity:0;transform:scale(.6)}
+  .js .pop.in{animation:popin .65s var(--ease) forwards}
   @keyframes popin{0%{transform:scale(.4);opacity:0}55%{transform:scale(1.02);opacity:1}100%{transform:scale(1);opacity:1}}
 
   @media (max-width:880px){
@@ -256,6 +260,7 @@
     .slideup,.load,.reveal,.pop{animation:none!important;opacity:1!important;transform:none!important;filter:none!important}
   }
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
@@ -278,11 +283,11 @@
       <div class="hero-copy">
         <div class="hero-eyebrow load">High-production editing for coaches &amp; personal brands</div>
         <h1 class="hero-title">
-          <span class="mask"><span class="slideup">Premium editing that makes your content <span class="power">look expensive</span> and hold attention.</span></span>
+          <span class="mask"><span class="slideup">Your content shouldn&rsquo;t look <span class="power">cheaper</span> than your offer.</span></span>
         </h1>
         <p class="hero-punch load" style="animation-delay:.3s">Great ideas die in average editing.</p>
         <p class="hero-sub load" style="animation-delay:.4s">
-          High-production editing for coaches and personal brands who want sharper hooks, cleaner pacing, premium visuals, and reliable turnaround without chasing freelancers.
+          Premium editing for coaches who want their videos to look expensive, hold attention, and stop blending into the feed, without chasing unreliable freelancers.
         </p>
         <div class="load" style="animation-delay:.52s">
           <div class="hero-ctas">
@@ -374,7 +379,7 @@
         </div>
         <div class="step reveal" style="animation-delay:.24s">
           <div class="step-row"><div class="step-badge">03</div><h3>Reliable Delivery &amp; Refinement</h3></div>
-          <p>You get a consistent production workflow, clear communication, and revisions against the agreed brief until the edit is right.</p>
+          <p>You get a consistent production workflow, clear communication, and up to 2 rounds of revisions per video.</p>
         </div>
       </div>
     </div>
@@ -422,8 +427,7 @@
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>High-production editing (hooks + retention)</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Captions &amp; on-screen text</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Sound design &amp; licensed music</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Custom thumbnails</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>2 revisions per video</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Up to 2 rounds of revisions per video</span></li>
           </ul>
           <a href="#apply" class="btn btn-outline press">Start Your Editing Audit</a>
         </div>
@@ -431,15 +435,14 @@
         <div class="price-card featured pop" style="animation-delay:.12s">
           <span class="badge-top">Most Popular</span>
           <h3>Authority Growth</h3>
-          <p class="price-desc">For higher output and stronger creative support</p>
+          <p class="price-desc">For higher output and stronger editing support</p>
           <div class="price-row"><span class="price">$2,200</span><span class="price-per">/ month</span></div>
           <div class="incl-label">What's included</div>
           <ul class="features">
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>20 short-form videos</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Starter</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Hook support and advanced editing polish</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Advanced editing polish</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Priority turnaround</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>3 revisions per video</span></li>
           </ul>
           <a href="#apply" class="btn btn-primary press">Start Your Editing Audit</a>
         </div>
@@ -454,7 +457,6 @@
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Growth</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Dedicated editor + backup</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day turnaround on priority clips</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Priority revisions until the edit matches the agreed brief</span></li>
           </ul>
           <a href="#apply" class="btn btn-outline press">Start Your Editing Audit</a>
         </div>
@@ -475,9 +477,10 @@
         <div class="result-row reveal">
           <div class="result-video">
             <div class="rv-thumb" data-video style="aspect-ratio:9/16">
-              <video class="rv-video" src="Alex.mp4#t=0.1" playsinline preload="metadata"></video>
+              <video class="rv-video" src="Alex.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.rv-thumb').classList.add('novideo')"></video>
               <button class="rv-playbtn" aria-label="Play Alex's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
               <span class="rv-tag">Alex</span>
+              <a class="rv-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">▶ Watch Alex's clip on Instagram</a>
             </div>
           </div>
           <div class="result-copy">
@@ -498,9 +501,10 @@
         <div class="result-row reveal">
           <div class="result-video">
             <div class="rv-thumb" data-video style="aspect-ratio:464/832">
-              <video class="rv-video" src="Lewis.mp4#t=0.1" playsinline preload="metadata"></video>
+              <video class="rv-video" src="Lewis.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.rv-thumb').classList.add('novideo')"></video>
               <button class="rv-playbtn" aria-label="Play Lewis's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
               <span class="rv-tag">Lewis</span>
+              <a class="rv-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">▶ Watch Lewis's clip on Instagram</a>
             </div>
           </div>
           <div class="result-copy">
@@ -521,9 +525,10 @@
         <div class="result-row reveal">
           <div class="result-video">
             <div class="rv-thumb" data-video style="aspect-ratio:480/848">
-              <video class="rv-video" src="Christos.mp4#t=0.1" playsinline preload="metadata"></video>
+              <video class="rv-video" src="Christos.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.rv-thumb').classList.add('novideo')"></video>
               <button class="rv-playbtn" aria-label="Play Christos's testimonial"><span class="rv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
               <span class="rv-tag">Christos</span>
+              <a class="rv-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">▶ Watch Christos's clip on Instagram</a>
             </div>
           </div>
           <div class="result-copy">
@@ -554,7 +559,7 @@
         <div class="why-item reveal" style="animation-delay:.08s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Reliable turnaround without chasing freelancers</p></div>
         <div class="why-item reveal" style="animation-delay:.16s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Editing built around hooks, pacing, and retention, not just basic cuts</p></div>
         <div class="why-item reveal" style="animation-delay:.24s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>A consistent editing style that matches your brand</p></div>
-        <div class="why-item reveal" style="animation-delay:.32s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Revision support until the edit matches the agreed brief</p></div>
+        <div class="why-item reveal" style="animation-delay:.32s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Up to 2 rounds of revisions per video</p></div>
         <div class="why-item reveal" style="animation-delay:.4s"><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><p>Built specifically for coaches and personal brands</p></div>
       </div>
     </div>
@@ -583,7 +588,7 @@
           <h3>This is not for you if…</h3>
           <ul class="fit-list">
             <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You only want the cheapest editor possible.</span></li>
-            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You want guaranteed sales calls without fixing your offer, content, or follow-up.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You expect editing alone to fix a weak offer, weak content ideas, or weak follow-up.</span></li>
             <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You are not willing to provide raw footage.</span></li>
             <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You want one-off edits instead of a monthly system.</span></li>
             <li><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg><span>You are under $10k/month and cannot invest in premium content support yet.</span></li>
@@ -602,7 +607,7 @@
       </div>
       <div class="faq reveal">
         <details><summary>Is this just video editing?<span class="plus"></span></summary><div class="fa">It is premium monthly editing, done properly: hook-focused cuts, retention-first pacing, captions, motion, sound design, thumbnails, brand consistency, and a reliable workflow.</div></details>
-        <details><summary>Do you guarantee booked calls?<span class="plus"></span></summary><div class="fa">No fake guarantees. The goal is to make your content look premium, build authority, and give viewers a clearer next step. Call volume depends on your offer, audience, market, consistency, and follow-up.</div></details>
+        <details><summary>Will better editing get me more clients?<span class="plus"></span></summary><div class="fa">Better editing can help your content look more premium, hold attention, and create a stronger first impression. But client results depend on your offer, audience, content quality, consistency, and follow-up. No fake guarantees.</div></details>
         <details><summary>What if I already have an editor?<span class="plus"></span></summary><div class="fa">You may still be a fit if your current editor only makes basic cuts and does not edit for hooks, pacing, retention, brand feel, or consistency.</div></details>
         <details><summary>How much time do I need to commit?<span class="plus"></span></summary><div class="fa">You need to provide raw footage, examples, and feedback. The goal is to remove editing chaos, not add another operational burden.</div></details>
         <details><summary>Who is this best for?<span class="plus"></span></summary><div class="fa">Coaches and personal brands with an existing offer who want premium content, consistent output, and an editor who understands their brand and style.</div></details>
@@ -616,7 +621,7 @@
     <div class="container">
       <div class="cta oncard reveal">
         <h2>Ready to stop losing good ideas to average editing?</h2>
-        <p>Book a quick audit and I'll show you where your content is losing attention, authority, or clarity, and which package fits your current output.</p>
+        <p>Book a quick audit and I'll show you where your content is losing attention, clarity, or premium feel, and which package fits your current output.</p>
         <a href="#apply" class="btn btn-primary press">
           Start Your Editing Audit
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
