@@ -78,6 +78,12 @@
   .hero-sub .power{color:var(--navy)}
   .hero-title .power{color:var(--navy)}
   .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+  /* stacked hero: headline -> sub -> video -> CTA */
+  .hero-stack{max-width:860px;margin:0 auto;text-align:center;display:flex;flex-direction:column;align-items:center}
+  .hero-stack .hero-title{font-size:clamp(2.15rem,4.8vw,3.1rem)}
+  .hero-stack .hero-sub{max-width:62ch;margin-left:auto;margin-right:auto}
+  .hero-stack .hero-ctas{justify-content:center}
+  .hero-stack .vsl{width:100%;max-width:680px;margin:8px auto 30px}
   .fine{font-size:12.5px;color:var(--muted);margin-top:12px;letter-spacing:.01em}
 
   /* showreel */
@@ -105,6 +111,37 @@
   .work-card .desc{font-size:1.02rem;margin-bottom:22px}
   .work-card .btn{margin-top:auto;align-self:flex-start}
   .work-note{max-width:660px;margin:36px auto 0;text-align:center;font-size:.9rem;color:var(--muted)}
+
+  /* The Editing Lift (metric proof) */
+  .lift{display:flex;flex-direction:column;gap:26px;max-width:1040px;margin:0 auto}
+  .lift-card{background:var(--card);border:1px solid var(--border);border-radius:26px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);padding:30px 34px;display:grid;grid-template-columns:auto 1fr;gap:38px;align-items:center}
+  .lift-card:nth-child(even){grid-template-columns:1fr auto}
+  .lift-card:nth-child(even) .lift-media{order:2}
+  .lift-card:nth-child(even) .lift-copy{order:1}
+  .lift-media{display:flex;gap:12px;flex-wrap:wrap}
+  .lift-clip{position:relative;width:150px;border-radius:18px;overflow:hidden;cursor:pointer;flex:0 0 auto;
+    background:linear-gradient(160deg,#0D2A43,#123a5a 55%,#1c4f7d);box-shadow:0 10px 26px rgba(13,42,67,.22)}
+  .lift-clip.land{width:280px}
+  .lift-clip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#0D2A43}
+  .lift-playbtn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;z-index:2;padding:0}
+  .lift-clip.playing .lift-playbtn{display:none}
+  .lift-pp{width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.5);
+    backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;color:#fff}
+  .lift-pp svg{width:18px;height:18px;margin-left:2px}
+  .lift-fallback{display:none;position:absolute;inset:0;z-index:3;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;font-size:.8rem;text-align:center;padding:12px;text-decoration:none}
+  .lift-clip.novideo .lift-fallback{display:flex}
+  .lift-clip.novideo .lift-playbtn{display:none}
+  .lift-name{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+  .lift-context{font-size:1.02rem;color:var(--body);margin-bottom:20px;max-width:48ch}
+  .lift-stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px}
+  .lift-stat{display:flex;flex-direction:column;align-items:flex-start;background:rgba(13,42,67,.06);
+    border:1px solid var(--border);border-radius:14px;padding:13px 17px;min-width:104px}
+  .lift-stat b{font-size:2.2rem;font-weight:800;color:var(--navy);letter-spacing:-.02em;line-height:1}
+  .lift-stat span{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:8px;font-weight:600}
+  .lift-cap{font-size:.95rem;color:var(--body);line-height:1.55;max-width:54ch}
+  .lift-caveat{max-width:780px;margin:40px auto 0;text-align:center;font-size:.88rem;color:var(--muted);line-height:1.6}
 
   /* number bracket badge (problem) */
   .num-badge{display:inline-flex;align-items:center;justify-content:center;
@@ -254,6 +291,10 @@
     .result-row:nth-child(even) .result-copy,.result-row:nth-child(even) .result-video{order:0}
     .result-row.has-wide{grid-template-columns:1fr}
     .result-video,.result-video.wide{max-width:300px}
+    .lift-card,.lift-card:nth-child(even){grid-template-columns:1fr;gap:22px}
+    .lift-card:nth-child(even) .lift-media,.lift-card:nth-child(even) .lift-copy{order:0}
+    .lift-clip{width:calc(50% - 6px)}
+    .lift-clip.land{width:100%}
     .section{padding:70px 0}
   }
   @media (prefers-reduced-motion:reduce){
@@ -273,33 +314,32 @@
 
   <!-- Hero -->
   <section class="section hero">
-    <div class="container hero-grid">
-      <a class="vsl load" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" style="animation-delay:.1s">
+    <div class="container hero-stack">
+      <div class="hero-eyebrow load">High-production editing for coaches &amp; personal brands</div>
+      <!-- A/B alternate headline (not live): You charge premium prices. Your content should look like it. -->
+      <h1 class="hero-title">
+        <span class="mask"><span class="slideup">You charge $5K. Your videos look like <span class="power">$50</span>.</span></span>
+      </h1>
+      <p class="hero-punch load" style="animation-delay:.3s">Great ideas die in average editing.</p>
+      <p class="hero-sub load" style="animation-delay:.4s">
+        Every prospect who watches is silently pricing you — and average editing is quietly talking you down. We turn your raw footage into video that holds attention to the end and makes your offer look like what you actually charge. Without you touching a timeline or chasing another editor who ghosts.
+      </p>
+      <a class="vsl load" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener" style="animation-delay:.5s">
         <div class="play-btn" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </div>
         <span class="vsl-tag">Watch Client Editing Work</span>
       </a>
-      <div class="hero-copy">
-        <div class="hero-eyebrow load">High-production editing for coaches &amp; personal brands</div>
-        <h1 class="hero-title">
-          <span class="mask"><span class="slideup">Your content shouldn&rsquo;t look <span class="power">cheaper</span> than your offer.</span></span>
-        </h1>
-        <p class="hero-punch load" style="animation-delay:.3s">Great ideas die in average editing.</p>
-        <p class="hero-sub load" style="animation-delay:.4s">
-          Premium editing for coaches who want their videos to look expensive, hold attention, and stop blending into the feed, without chasing unreliable freelancers.
-        </p>
-        <div class="load" style="animation-delay:.52s">
-          <div class="hero-ctas">
-            <a href="#apply" class="btn btn-primary press">
-              Start Your Editing Audit
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a href="#work" class="btn btn-outline press">View Editing Examples</a>
-          </div>
-          <p class="fine">Watch the work first. Then book the audit.</p>
-          <p class="fine">Real client editing work. No fake case-study claims. Watch the quality before you book.</p>
+      <div class="load" style="animation-delay:.62s">
+        <div class="hero-ctas">
+          <a href="#apply" class="btn btn-primary press">
+            Start Your Editing Audit
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#work" class="btn btn-outline press">View Editing Examples</a>
         </div>
+        <p class="fine">Watch the work first. Then book the audit.</p>
+        <p class="fine">Real client editing work. No fake case-study claims. Watch the quality before you book.</p>
       </div>
     </div>
   </section>
@@ -329,6 +369,86 @@
         </div>
       </div>
       <p class="work-note reveal">These examples show editing quality and execution. They do not claim guaranteed sales calls, revenue, or lead outcomes.</p>
+    </div>
+  </section>
+
+  <!-- The Editing Lift (metric proof) -->
+  <section class="section" id="results">
+    <div class="container">
+      <div class="head reveal">
+        <h2>The Editing <span class="power">Lift</span></h2>
+        <p>Real client clips. Real content metrics. No inflated claims, no revenue promises, no fake case studies &mdash; just examples of what happened when client content was upgraded through stronger editing, cleaner pacing, and a more premium visual style.</p>
+      </div>
+      <div class="lift">
+      <div class="lift-card reveal">
+        <div class="lift-media">
+        <div class="lift-clip land" data-video style="aspect-ratio:16/9">
+          <video src="george%201.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        <div class="lift-clip land" data-video style="aspect-ratio:16/9">
+          <video src="george%20video%203.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        </div>
+        <div class="lift-copy">
+          <div class="lift-name">George</div>
+          <p class="lift-context">Cold profile. No recent Reels presence. First posts after the editing upgrade.</p>
+          <div class="lift-stats"><div class="lift-stat"><b>~9,000</b><span>views · first post</span></div><div class="lift-stat"><b>~10,000</b><span>views · second post</span></div></div>
+          <p class="lift-cap">From an empty profile with 0 posts and no Reels presence for months to roughly 9&ndash;10K views on the first two posts after the editing upgrade.</p>
+        </div>
+      </div>
+
+      <div class="lift-card reveal">
+        <div class="lift-media">
+        <div class="lift-clip" data-video style="aspect-ratio:9/16">
+          <video src="pin%20post%201_1.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        <div class="lift-clip" data-video style="aspect-ratio:9/16">
+          <video src="pin%20post%202_1.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        <div class="lift-clip" data-video style="aspect-ratio:9/16">
+          <video src="pin%20post%203_1.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        </div>
+        <div class="lift-copy">
+          <div class="lift-name">Lewis</div>
+          <p class="lift-context">Pinned posts rebuilt from plain captions into a more premium editing style.</p>
+          <div class="lift-stats"><div class="lift-stat"><b>2&ndash;3</b><span>shares · before</span></div><div class="lift-stat"><b>50+</b><span>shares · post 1</span></div><div class="lift-stat"><b>40</b><span>shares · post 2</span></div><div class="lift-stat"><b>17</b><span>shares · post 3</span></div></div>
+          <p class="lift-cap">Before the editing upgrade, Lewis was getting around 2&ndash;3 shares per video. After the pinned posts were remade with a stronger visual style, the three recent pinned posts reached 50+ shares, 40 shares, and 17 shares.</p>
+        </div>
+      </div>
+
+      <div class="lift-card reveal">
+        <div class="lift-media">
+        <div class="lift-clip" data-video style="aspect-ratio:9/16">
+          <video src="eliot%201.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        <div class="lift-clip" data-video style="aspect-ratio:9/16">
+          <video src="eliot%20video%203.mp4#t=0.1" playsinline preload="metadata" onerror="this.closest('.lift-clip').classList.add('novideo')"></video>
+          <button class="lift-playbtn" aria-label="Play clip"><span class="lift-pp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span></button>
+          <a class="lift-fallback" href="https://www.instagram.com/stories/highlights/18126830638565789/" target="_blank" rel="noopener">Watch on Instagram</a>
+        </div>
+        </div>
+        <div class="lift-copy">
+          <div class="lift-name">Elliot Fallon</div>
+          <p class="lift-context">Light edit and social-proof style content, with real engagement metrics.</p>
+          <div class="lift-stats"><div class="lift-stat"><b>21,000</b><span>views · clip 1</span></div><div class="lift-stat"><b>251</b><span>likes · clip 1</span></div><div class="lift-stat"><b>114</b><span>shares · clip 1</span></div><div class="lift-stat"><b>12,500</b><span>views · clip 2</span></div><div class="lift-stat"><b>326</b><span>likes · clip 2</span></div><div class="lift-stat"><b>73</b><span>shares · clip 2</span></div><div class="lift-stat"><b>118</b><span>comments · clip 2</span></div></div>
+          <p class="lift-cap">Clip 1 was a light edit &mdash; mainly a music change and visual polish. Clip 2 was a social-proof style video.</p>
+        </div>
+      </div>
+      </div>
+      <p class="lift-caveat reveal">Individual results vary and depend on your offer, niche, audience, content quality, consistency, and distribution. These examples show content engagement metrics only &mdash; not guaranteed leads, sales, revenue, ROI, or booked calls.</p>
     </div>
   </section>
 
@@ -440,9 +560,12 @@
           <div class="incl-label">What's included</div>
           <ul class="features">
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>20 short-form videos</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Starter</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Advanced editing polish</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>High-production editing</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Captions and on-screen text</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Sound design and licensed music</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Hook support and advanced editing polish</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Priority turnaround</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Up to 2 rounds of revisions per video</span></li>
           </ul>
           <a href="#apply" class="btn btn-primary press">Start Your Editing Audit</a>
         </div>
@@ -454,9 +577,12 @@
           <div class="incl-label">What's included</div>
           <ul class="features">
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>30 short-form videos</span></li>
-            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Everything in Authority Growth</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>High-production editing</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Captions and on-screen text</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Sound design and licensed music</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Dedicated editor + backup</span></li>
             <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Same-day turnaround on priority clips</span></li>
+            <li><svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Up to 2 rounds of revisions per video</span></li>
           </ul>
           <a href="#apply" class="btn btn-outline press">Start Your Editing Audit</a>
         </div>
@@ -663,12 +789,6 @@
 
     document.querySelectorAll('[data-video]').forEach(function(box){
       var v = box.querySelector('video');
-      var src = v ? (v.getAttribute('src') || '').split('#')[0] : '';
-      if (src) {
-        fetch(src, { method: 'HEAD' }).then(function(r){
-          if (!r.ok) box.classList.add('novideo');
-        }).catch(function(){ box.classList.add('novideo'); });
-      }
       box.addEventListener('click', function(){
         if(box.classList.contains('playing')) return;
         box.classList.add('playing');
